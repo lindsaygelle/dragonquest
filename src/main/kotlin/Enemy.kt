@@ -18,6 +18,7 @@ public open class Enemy(
     magicPointsMaximum,
     name,
     strength) {
+    public final override val category: CharacterCategory = CharacterCategory.Enemy
     public final val experienceReward: Int
         get() = Random.nextInt(experiencePoints, experiencePointsMaximum+1)
 }
