@@ -8,8 +8,9 @@ public abstract class Character(
     name: String,
     public var strengthMaximum: Int,
 ) : Actor(
-    category, 
-    name) {
+    category,
+    name
+) {
     //public abstract var abilities: Array<Ability>
     public abstract val agility: Int
     public abstract val sleepResistance: Int
@@ -18,5 +19,6 @@ public abstract class Character(
     public var magicPoints: Int = magicPointsMaximum
     public final val isAlive: Boolean
         get() = hitPoints > 0
-    public var isAsleep: Boolean = false
+    public var isSleep: Boolean = false
+    public var isStopSpell: Boolean = false
 }
