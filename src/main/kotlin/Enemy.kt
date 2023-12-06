@@ -7,6 +7,7 @@ public open class Enemy(
     hitPointsMaximum: Int,
     magicPointsMaximum: Int,
     name: String,
+    public final val statusResistanceMaximum: Int,
     strengthMaximum: Int,
 ) : Character(
     agilityMaximum,
@@ -17,7 +18,7 @@ public open class Enemy(
     // This feels kinda clunky to have here. But it allows me to keep Character clean.
     if (name == "Dragonlord") hitPointsMaximum else hitPointsMaximum - ((Random.nextInt(0, 256) * hitPointsMaximum) shr 10),
     magicPointsMaximum,
-    name.toString(),
+    name,
     strengthMaximum) {
     public final override val agility: Int
     	// Calculate agility to be currently the max.
@@ -30,6 +31,7 @@ public open class Enemy(
         // Dragon Quest gold formula (GP * ((0..63 & 0x3F) + 0xC0)) >> 8
         // Add 1 for some reward? Could toggle this as some difficulty scaling thing.
     	get() = (((Random.nextInt(0, 64) + 0xC0) * goldPointsMaximum) / 256) + 1
+    public final override val sleepResistance: Int = (statusResistanceMaximum shr 4) and 0xF // Get first nibble (nybble) of statusResistanceMaximum.
     public final override val strength: Int
      	// Calculate strength to be currently the max.
      	// Could implement scaling based on buffs and debuffs.
