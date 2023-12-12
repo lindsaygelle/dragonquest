@@ -1,40 +1,33 @@
-import kotlin.random.Random
-
 public abstract class Action(
-    public final val category: Category,
     public final val name: String,
 ) {
-    public final enum class Category {
-        Attack, Spell,
+    public enum class Result {
+        NONE,
+        OK,
     }
 
-    public abstract fun perform(invoker: Character, receiver: Any): Boolean
+    public abstract fun invoke(invoker: Character, receivers: List<Character>): Result
 }
 
-public abstract class ActionSpell(
-    name: String,
-) : Action(
-    Action.Category.Spell,
-    name,
+
+public open class Attack: Action(
+    name = "Attack"
 ) {
-    protected abstract fun apply(invoker: Character, receiver: Character): Unit
-    public final override fun perform(invoker: Character, receiver: Any): Boolean {
-        if (receiver is Character) {
-            apply(invoker, receiver)
-            return true
-        }
-        return false
+    public override fun invoke(invoker: Character, receivers: List<Character>): Result {
+        receivers[0].hitPoints-=invoker.attackScore
+        return Result.OK
     }
 }
 
-public class SpellSleep : ActionSpell("Sleep") {
-    override fun apply(invoker: Character, receiver: Character): Unit {
-        // Generate a random number (sleepChance).
-        // When sleepChance is greater or equal to receiver.sleepResistance the spell is successful.
-        val sleepChance: Int =
-            if (receiver.category == Actor.Category.Player) Random.nextInt(0, 2)
-            else Random.nextInt(0, 16)
-        val sleepResistance: Int = receiver.sleepResistance
-        receiver.isSleep = sleepChance >= sleepResistance
+public open class Kamikaze : Action(
+    name = "Kamikaze"
+) {
+    public override fun invoke(invoker: Character, receivers: List<Character>): Result {
+        invoker.hitPoints = 0
+        for (receiver in receivers) {
+            receiver.hitPoints--
+            println("${name} HIT ${receiver.name} DOING 1 DMG")
+        }
+        return Result.OK
     }
 }

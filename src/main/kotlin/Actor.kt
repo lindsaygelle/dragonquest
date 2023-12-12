@@ -1,8 +1,9 @@
 public abstract class Actor(
-    public final val category: Category,
-    public final val name: String) {
-    public final enum class Category {
+    public open var category: Category,
+    public open var name: String,
+) {
+    public enum class Category {
         NPC,
-        Player
+        PLAYER,
     }
 }

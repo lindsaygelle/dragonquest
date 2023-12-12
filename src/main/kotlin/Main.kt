@@ -1,7 +1,29 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
-
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main() {
+    val slime = Enemy(
+        actions = mutableListOf(Attack()),
+        agility = 1u,
+        damageResistance = 1u,
+        experiencePoints = 2u,
+        goldPoints = 1u,
+        hitPoints = 13u,
+        magicPoints = 0u,
+        name = "Slime",
+        statusResistance = 15u,
+        strength = 5u,
+    )
+    val slime2 = Enemy(
+        actions = mutableListOf(Attack()),
+        agility = 1u,
+        damageResistance = 1u,
+        experiencePoints = 2u,
+        goldPoints = 1u,
+        hitPoints = 3u,
+        magicPoints = 0u,
+        name = "Slime2",
+        statusResistance = 15u,
+        strength = 5u,
+    )
+    slime2.category = Actor.Category.PLAYER
+    val battle = CategoryBattle(mutableListOf(slime, slime2))
+    battle.run()
 }
