@@ -1,9 +1,7 @@
-public open class Enemy(
+public abstract class Boss(
     actions: MutableList<Action>,
     agility: UInt,
     damageResistance: UInt,
-    experiencePoints: UInt,
-    goldPoints: UInt,
     hitPoints: UInt,
     magicPoints: UInt,
     name: String,
@@ -13,11 +11,13 @@ public open class Enemy(
     actions = actions,
     agility = agility,
     damageResistance = damageResistance,
-    experiencePoints = experiencePoints,
-    goldPoints = goldPoints,
-    hitPoints = (hitPoints.toInt() - (((0..256).random() * hitPoints.toInt()) shr 10)).toUInt(),
+    experiencePoints = 0u,
+    goldPoints = 0u,
+    hitPoints = hitPoints,
     magicPoints = magicPoints,
     name = name,
     statusResistance = statusResistance,
     strength = strength,
-)
+) {
+    protected abstract fun nextPhase(): Boss
+}
