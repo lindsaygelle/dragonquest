@@ -3,7 +3,6 @@ public abstract class Actor(
     public open var name: String,
 ) {
     public enum class Category {
-        NPC,
-        PLAYER,
+        NPC, PLAYER,
     }
 }

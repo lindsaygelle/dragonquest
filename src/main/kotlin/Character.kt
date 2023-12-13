@@ -9,8 +9,7 @@ public abstract class Character(
     name: String,
     strength: UInt,
 ) : Actor(
-    category = category,
-    name = name
+    category = category, name = name
 ) {
 
     public abstract val attackScore: Int

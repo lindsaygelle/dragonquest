@@ -14,8 +14,7 @@ public abstract class Battle(
 
     }
 
-    protected open fun processCharacter(character: Character, characters: List<Character>): Unit {
-        /*
+    protected open fun processCharacter(character: Character, characters: List<Character>): Unit {/*
         val action = character.decideAction(characters)
         val actionResult = action.invoke(character, characters)
         logCharacterAction(character, action)
@@ -37,8 +36,7 @@ public abstract class Battle(
         }
     }
 
-    public open fun run(): Unit {
-        /*
+    public open fun run(): Unit {/*
         while (isActive()) {
             turn++
             processCharacters()
