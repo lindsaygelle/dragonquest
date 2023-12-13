@@ -4,8 +4,8 @@ public abstract class Spell(
 ) : Action(name = name) {
     private final val magicPoints = magicPoints.toInt()
 
-    protected final override fun canUse(character: Character): Boolean {
-        return (character.magicPoints - magicPoints) > 0
+    protected final override fun canUse(a: Character): Boolean {
+        return (a.magicPoints - magicPoints) > 0
     }
 }
 
