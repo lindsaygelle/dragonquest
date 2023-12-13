@@ -29,14 +29,14 @@ public abstract class NPC(
 
     public final var damageResistance: Int = maxOf(0u, minOf(5u, damageResistance)).toInt()
 
-    public final val hurtResistance: Int
+    public final override val hurtResistance: Int
         get() = (this.damageResistance and 0xF)
 
-    public final val sleepResistance: Int
+    public final override val sleepResistance: Int
         get() = (this.statusResistance shr 4 and 0xF)
 
     public final val statusResistance: Int = maxOf(0u, minOf(255u, statusResistance)).toInt()
 
-    public final val stopSpellResistance: Int
+    public final override val stopSpellResistance: Int
         get() = (this.statusResistance and 0xF)
 }

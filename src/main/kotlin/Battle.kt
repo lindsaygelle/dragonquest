@@ -15,10 +15,13 @@ public abstract class Battle(
     }
 
     protected open fun processCharacter(character: Character, characters: List<Character>): Unit {
+        /*
         val action = character.decideAction(characters)
         val actionResult = action.invoke(character, characters)
         logCharacterAction(character, action)
         println("${character.name}: RESULT=${actionResult}")
+
+         */
     }
 
     protected open fun processCharacters(): Unit {
@@ -35,10 +38,12 @@ public abstract class Battle(
     }
 
     public open fun run(): Unit {
+        /*
         while (isActive()) {
             turn++
             processCharacters()
         }
+         */
     }
 }
 

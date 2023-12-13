@@ -45,6 +45,8 @@ public abstract class Character(
             field = maxOf(0, value)
         }
 
+    public abstract val hurtResistance: Int
+
     public final var magicPoints: Int = 0
         set(value) {
             field = minOf(magicPointsMaximum, maxOf(0, value))
@@ -55,9 +57,13 @@ public abstract class Character(
             field = maxOf(0, value)
         }
 
+    public abstract val sleepResistance: Int
+
     public final var statusSleep: Boolean = false
 
     public final var statusStopSpell: Boolean = false
+
+    public abstract val stopSpellResistance: Int
 
     public final val strength: Int
         get() = strengthMaximum
@@ -76,14 +82,6 @@ public abstract class Character(
         set(value) {
             field = maxOf(0, value)
         }
-
-    private final fun canPerformAction(action: Action): Boolean {
-        return false
-    }
-
-    public final fun decideAction(characters: List<Character>): Action {
-        return Attack()
-    }
 
     init {
         this.agilityMaximum = agility.toInt()
