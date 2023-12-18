@@ -1,5 +1,4 @@
 public open class Enemy(
-    actions: MutableList<Action>,
     agility: UInt,
     damageResistance: UInt,
     experiencePoints: UInt,
@@ -10,7 +9,6 @@ public open class Enemy(
     statusResistance: UInt,
     strength: UInt,
 ) : NPC(
-    actions = actions,
     agility = agility,
     damageResistance = damageResistance,
     experiencePoints = experiencePoints,

@@ -1,5 +1,4 @@
 public abstract class Character(
-    protected final var actions: MutableList<Action>,
     agility: UInt,
     category: Category,
     experiencePoints: UInt,
@@ -10,7 +9,7 @@ public abstract class Character(
     strength: UInt,
 ) : Actor(
     category = category, name = name
-) {
+), TraitHitPoints, TraitHurtResistance, TraitHurtScore, TraitMagicPoints {
 
     public abstract val attackScore: Int
 
@@ -34,7 +33,7 @@ public abstract class Character(
     public final val hasMagicPoints: Boolean
         get() = (magicPoints > 0)
 
-    public final var hitPoints: Int = 0
+    public final override var hitPoints: Int = 0
         set(value) {
             field = minOf(hitPointsMaximum, maxOf(0, value))
         }
@@ -44,9 +43,7 @@ public abstract class Character(
             field = maxOf(0, value)
         }
 
-    public abstract val hurtResistance: Int
-
-    public final var magicPoints: Int = 0
+    public final override var magicPoints: Int = 0
         set(value) {
             field = minOf(magicPointsMaximum, maxOf(0, value))
         }

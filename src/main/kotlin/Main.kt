@@ -1,6 +1,5 @@
 fun main() {
-    val slime = Enemy(
-        actions = mutableListOf(),
+    val slime1 = Enemy(
         agility = 1u,
         damageResistance = 1u,
         experiencePoints = 2u,
@@ -12,7 +11,6 @@ fun main() {
         strength = 5u,
     )
     val slime2 = Enemy(
-        actions = mutableListOf(),
         agility = 1u,
         damageResistance = 1u,
         experiencePoints = 2u,
@@ -20,12 +18,13 @@ fun main() {
         hitPoints = 3u,
         magicPoints = 0u,
         name = "Slime2",
-        statusResistance = 15u,
+        statusResistance = 0u,
         strength = 5u,
     )
     slime2.category = Actor.Category.PLAYER
-    val battle = CategoryBattle(mutableListOf(slime, slime2))
-    battle.run()
-    Sleep().invoke(slime, listOf(slime2))
-    StopSpell().invoke(slime2, listOf(slime))
+    println("${slime1.magicPoints}/${slime1.magicPointsMaximum}")
+    SpellHurt<Character, Character>().use(slime1, slime2)
+    println("$slime2: ${slime2.hasHitPoints} ${slime2.hitPoints}/${slime2.hitPoints}")
+    println("${slime1.magicPoints}/${slime1.magicPointsMaximum}")
+
 }
