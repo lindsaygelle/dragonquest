@@ -1,49 +1,24 @@
-public abstract class Spell(
-    magicPoints: UInt, name: String
-) : Action(name = name) {
-    private final val magicPoints = magicPoints.toInt()
-
-    protected final override fun canUse(a: Character): Boolean {
-        return (a.magicPoints - magicPoints) > 0
+public abstract class Spell<A : TraitMagicPoints, B>(name: String) : Action<A, B>(name = name), SetterMagicPoints {
+    protected abstract val magicPoints: Int
+    protected abstract fun apply(a: A, b: B)
+    protected abstract fun check(a: A, b: B): Boolean
+    public final override fun use(a: A, b: B) {
+        setMagicPoints(a, a.magicPoints - magicPoints)
+        if (check(a, b)) {
+            apply(a, b)
+        }
     }
 }
 
-public open class Heal : Spell(magicPoints = 4u, name = "Heal") {
-    protected override fun apply(a: Character, b: Character) {
-        println("${a.name} HEALS ${b.name}")
+public open class SpellHurt<A, B> : Spell<A, B>(name = "Hurt"),
+    SetterHitPoints where B : TraitHurtResistance, A : TraitHurtScore, A : TraitMagicPoints, B : TraitHitPoints {
+    protected override val magicPoints: Int = 2
+    protected final override fun apply(a: A, b: B) {
+        setHitPoints(b, b.hitPoints - a.hurtScore)
     }
 
-    protected override fun canApply(a: Character, b: Character): Boolean {
-        return true
-    }
-}
-
-public open class Hurt : Spell(magicPoints = 2u, name = "Hurt") {
-    protected override fun apply(a: Character, b: Character) {
-        println("${a.name} HURT ${b.name}")
-    }
-
-    protected override fun canApply(a: Character, b: Character): Boolean {
-        return (0..15).random() >= b.hurtResistance
-    }
-}
-
-public final class Sleep : Spell(magicPoints = 2u, name = "Sleep") {
-    protected override fun apply(a: Character, b: Character) {
-        println("${a.name} SLEEPS ${b.name}")
-    }
-
-    protected override fun canApply(a: Character, b: Character): Boolean {
-        return (0..15).random() >= b.sleepResistance
-    }
-}
-
-public final class StopSpell : Spell(magicPoints = 2u, name = "Stop Spell") {
-    protected override fun apply(a: Character, b: Character) {
-        println("${a.name} STOPSPELLS ${b.name}")
-    }
-
-    protected override fun canApply(a: Character, b: Character): Boolean {
-        return (0..15).random() >= b.stopSpellResistance
+    protected override fun check(a: A, b: B): Boolean {
+        val hurtValue =  (0..15).random()
+        return hurtValue >= b.hurtResistance
     }
 }
