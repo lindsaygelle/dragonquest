@@ -1,5 +1,4 @@
 public abstract class Boss(
-    actions: MutableList<Action>,
     agility: UInt,
     damageResistance: UInt,
     hitPoints: UInt,
@@ -8,7 +7,6 @@ public abstract class Boss(
     statusResistance: UInt,
     strength: UInt,
 ) : NPC(
-    actions = actions,
     agility = agility,
     damageResistance = damageResistance,
     experiencePoints = 0u,
@@ -18,6 +16,4 @@ public abstract class Boss(
     name = name,
     statusResistance = statusResistance,
     strength = strength,
-) {
-    protected abstract fun nextPhase(): Boss
-}
+)

@@ -1,5 +1,4 @@
 public abstract class NPC(
-    actions: MutableList<Action>,
     agility: UInt,
     damageResistance: UInt,
     experiencePoints: UInt,
@@ -10,7 +9,6 @@ public abstract class NPC(
     statusResistance: UInt,
     strength: UInt,
 ) : Character(
-    actions = actions,
     agility = minOf(255u, maxOf(3u, agility)),
     category = Category.NPC,
     experiencePoints = experiencePoints,
@@ -31,6 +29,9 @@ public abstract class NPC(
 
     public final override val hurtResistance: Int
         get() = (this.damageResistance and 0xF)
+
+    public final override val hurtScore: Int
+        get() = ((0..256).random() and 0x07) + 0x03
 
     public final override val sleepResistance: Int
         get() = (this.statusResistance shr 4 and 0xF)
