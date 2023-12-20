@@ -1,15 +1,6 @@
-public interface TraitHitPoints {
-    var hitPoints: Int
-}
+public interface TraitCombatant : AttributeAgility, AttributeAttackValue, AttributeDefenseValue, AttributeHitPoints,
+    AttributeHitPointsMaximum, AttributeMagicPoints, AttributeMagicPointsMaximum, AttributeStrength
 
-public interface TraitHurtResistance {
-    val hurtResistance: Int
-}
+public interface TraitHurtInvoker : AttributeMagicPoints, AttributeHurtRequirement, AttributeHurtValue
 
-public interface TraitHurtScore {
-    val hurtScore: Int
-}
-
-public interface TraitMagicPoints {
-    var magicPoints: Int
-}
+public interface TraitHurtReceiver : AttributeHitPoints, AttributeHurtResistance, AttributeHurtScale

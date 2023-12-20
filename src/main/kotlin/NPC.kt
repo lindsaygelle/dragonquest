@@ -1,43 +1,34 @@
-public abstract class NPC(
-    agility: UInt,
-    damageResistance: UInt,
-    experiencePoints: UInt,
-    goldPoints: UInt,
-    hitPoints: UInt,
-    magicPoints: UInt,
+public abstract class NPCEnemy(
+    agility: Int,
+    damageResistance: Int,
+    hitPoints: HitPoints,
+    magicPoints: MagicPoints,
     name: String,
-    statusResistance: UInt,
-    strength: UInt,
-) : Character(
-    agility = minOf(255u, maxOf(3u, agility)),
-    category = Category.NPC,
-    experiencePoints = experiencePoints,
-    goldPoints = goldPoints,
-    hitPoints = minOf(160u, maxOf(3u, hitPoints)),
+    statusResistance: Int,
+    strength: Strength
+) : Combatant(
+    agility = minOf(255, maxOf(3, agility)),
+    hitPoints = minOf(160, maxOf(3, hitPoints)),
     magicPoints = magicPoints,
     name = name,
-    strength = minOf(140u, maxOf(5u, strength)),
+    strength = minOf(140, maxOf(5, strength)),
 ) {
-
-    public final override val attackScore: Int
+    public override val attackValue: Int
         get() = strength
 
-    public final override val defenseScore: Int
-        get() = (agility / 2)
+    private final val damageResistance: Int = minOf(52, maxOf(1, damageResistance))
 
-    public final var damageResistance: Int = maxOf(0u, minOf(5u, damageResistance)).toInt()
+    public override val defenseValue: Int
+        get() = agility / 2
 
     public final override val hurtResistance: Int
-        get() = (this.damageResistance and 0xF)
 
-    public final override val hurtScore: Int
-        get() = ((0..256).random() and 0x07) + 0x03
+    public override val hurtScale: Int
+        get() = 1
 
-    public final override val sleepResistance: Int
-        get() = (this.statusResistance shr 4 and 0xF)
+    private final val statusResistance: Int = minOf(255, maxOf(0, statusResistance))
 
-    public final val statusResistance: Int = maxOf(0u, minOf(255u, statusResistance)).toInt()
-
-    public final override val stopSpellResistance: Int
-        get() = (this.statusResistance and 0xF)
+    init {
+        this.hurtResistance = (this.statusResistance shr 4) and 0xF
+    }
 }
