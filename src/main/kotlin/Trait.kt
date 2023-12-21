@@ -1,15 +1,18 @@
-public interface TraitHitPoints {
-    var hitPoints: Int
-}
+public sealed interface TraitCombatant : AttributeAgility, AttributeAttackValue, AttributeDefenseValue,
+    AttributeHitPoints, AttributeHitPointsMaximum, AttributeMagicPoints, AttributeMagicPointsMaximum, AttributeName,
+    AttributeStrength
 
-public interface TraitHurtResistance {
-    val hurtResistance: Int
-}
+public sealed interface TraitSpellInvoker : AttributeMagicPoints, AttributeName
+public sealed interface TraitSpellHurtInvoker : AttributeHurtRequirement, AttributeHurtValue, TraitSpellInvoker
 
-public interface TraitHurtScore {
-    val hurtScore: Int
-}
+public sealed interface TraitSpellHurtReceiver : AttributeHitPoints, AttributeHurtResistance, AttributeHurtScale,
+    AttributeName
 
-public interface TraitMagicPoints {
-    var magicPoints: Int
-}
+public sealed interface TraitSpellSleepInvoker : TraitSpellInvoker, AttributeSleepRequirement
+
+public sealed interface TraitSpellSleepReceiver : AttributeSleepResistance, AttributeStatusSleep, AttributeName
+
+public sealed interface TraitSpellStopSpellInvoker : TraitSpellInvoker, AttributeStopSpellRequirement
+
+public sealed interface TraitSpellStopSpellReceiver : AttributeStatusStopSpell, AttributeStopSpellResistance,
+    AttributeName
