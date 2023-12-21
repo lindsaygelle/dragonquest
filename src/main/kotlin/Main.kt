@@ -1,9 +1,10 @@
 fun main() {
-    val e = EnemyMagician()
+    val magician = EnemyMagician()
+    val warlock = EnemyWarlock()
+    val wolfLord = EnemyWolfLord()
     val p = Player()
-    println(p.hitPoints)
-    e.spells.forEach {
-        it.use(p)
+
+    listOf(magician, warlock, wolfLord).forEach { it ->
+        it.attack(p)
     }
-    println(p.hitPoints)
 }

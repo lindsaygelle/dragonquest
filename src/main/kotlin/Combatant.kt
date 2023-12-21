@@ -1,6 +1,6 @@
 public abstract class Combatant(
     agility: Int, hitPoints: HitPoints, magicPoints: MagicPoints, name: String, strength: Strength,
-) : Actor(name = name), TraitCombatant, TraitHurtReceiver {
+) : Actor(name = name), TraitCombatant, TraitSpellHurtReceiver, TraitSpellSleepReceiver, TraitSpellStopSpellReceiver {
 
     public final override var agility: Agility = agility
         set(value) {
@@ -10,6 +10,7 @@ public abstract class Combatant(
     public final override var hitPoints: HitPoints = 0
         set(value) {
             field = minOf(hitPointsMaximum, maxOf(0, value))
+            println("$name: ${hitPoints}/${hitPointsMaximum}")
         }
 
     public final override var hitPointsMaximum: HitPoints = 0
@@ -26,6 +27,10 @@ public abstract class Combatant(
         set(value) {
             field = maxOf(0, value)
         }
+
+    public override var statusSleep: Boolean = false
+
+    public override var statusStopSpell: Boolean = false
 
     public final override var strength: Strength = strength
         set(value) {

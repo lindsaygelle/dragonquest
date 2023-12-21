@@ -12,6 +12,18 @@ public interface AttributeDefenseValue {
     public val defenseValue: Int
 }
 
+typealias ExperiencePoints = Int
+
+public interface AttributeExperiencePoints {
+    public var experiencePoints: ExperiencePoints
+}
+
+typealias GoldPoints = Int
+
+public interface AttributeGoldPoints {
+    public var goldPoints: GoldPoints
+}
+
 typealias HitPoints = Int
 
 public interface AttributeHitPoints {
@@ -48,8 +60,36 @@ public interface AttributeMagicPointsMaximum {
     public var magicPointsMaximum: MagicPoints
 }
 
+public interface AttributeName {
+    public var name: String
+}
+
+public interface AttributeStatusSleep {
+    public var statusSleep: Boolean
+}
+
+public interface AttributeStatusStopSpell {
+    public var statusStopSpell: Boolean
+}
+
 public interface AttributeShieldValue {
     public val shieldValue: Int
+}
+
+public interface AttributeSleepRequirement {
+    public val sleepRequirement: Int
+}
+
+public interface AttributeSleepResistance {
+    public val sleepResistance: Int
+}
+
+public interface AttributeStopSpellRequirement {
+    public val stopSpellRequirement: Int
+}
+
+public interface AttributeStopSpellResistance {
+    public val stopSpellResistance: Int
 }
 
 typealias Strength = Int

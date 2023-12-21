@@ -1,1 +1,1 @@
-public open class Actor(public open var name: String)
+public open class Actor(public override var name: String): AttributeName

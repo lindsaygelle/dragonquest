@@ -1,6 +1,18 @@
-public interface TraitCombatant : AttributeAgility, AttributeAttackValue, AttributeDefenseValue, AttributeHitPoints,
-    AttributeHitPointsMaximum, AttributeMagicPoints, AttributeMagicPointsMaximum, AttributeStrength
+public sealed interface TraitCombatant : AttributeAgility, AttributeAttackValue, AttributeDefenseValue,
+    AttributeHitPoints, AttributeHitPointsMaximum, AttributeMagicPoints, AttributeMagicPointsMaximum, AttributeName,
+    AttributeStrength
 
-public interface TraitHurtInvoker : AttributeMagicPoints, AttributeHurtRequirement, AttributeHurtValue
+public sealed interface TraitSpellInvoker : AttributeMagicPoints, AttributeName
+public sealed interface TraitSpellHurtInvoker : AttributeHurtRequirement, AttributeHurtValue, TraitSpellInvoker
 
-public interface TraitHurtReceiver : AttributeHitPoints, AttributeHurtResistance, AttributeHurtScale
+public sealed interface TraitSpellHurtReceiver : AttributeHitPoints, AttributeHurtResistance, AttributeHurtScale,
+    AttributeName
+
+public sealed interface TraitSpellSleepInvoker : TraitSpellInvoker, AttributeSleepRequirement
+
+public sealed interface TraitSpellSleepReceiver : AttributeSleepResistance, AttributeStatusSleep, AttributeName
+
+public sealed interface TraitSpellStopSpellInvoker : TraitSpellInvoker, AttributeStopSpellRequirement
+
+public sealed interface TraitSpellStopSpellReceiver : AttributeStatusStopSpell, AttributeStopSpellResistance,
+    AttributeName
