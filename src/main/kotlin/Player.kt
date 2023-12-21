@@ -7,9 +7,12 @@ public open class Player(
     name: String = "Player",
     strength: Strength = 10,
 ) : Combatant(
-    agility = agility, hitPoints = hitPoints, magicPoints = magicPoints, name = name, strength = strength
-), AttributeArmorValue, AttributeExperiencePoints, AttributeGoldPoints, AttributeShieldValue, AttributeWeaponValue,
-    TraitSpellHurtInvoker, TraitSpellSleepInvoker, TraitSpellStopSpellInvoker {
+    agility = agility,
+    hitPoints = hitPoints,
+    magicPoints = magicPoints,
+    name = name,
+    strength = strength
+), ActorPlayer {
 
     public final override val armorValue: Int
         get() = 0
@@ -18,7 +21,7 @@ public open class Player(
         get() = strength + weaponValue
 
     public final override val defenseValue: Int
-        get() = (agility / 2) + (armorValue + shieldValue)
+        get() = (armorValue + shieldValue)
 
     public override var experiencePoints: ExperiencePoints = experiencePoints
         set(value) {
@@ -45,7 +48,7 @@ public open class Player(
     public final override val hurtResistance: Int = 0
 
     public final override val hurtValue: Int
-        get() = ((0..256).random() and 0x07) + 0x05
+        get() = ((0..255).random() and 0x07) + 0x05
 
     public final override val hurtScale: Int
         get() = 1

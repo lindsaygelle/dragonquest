@@ -6,10 +6,10 @@ public abstract class Interaction<A : AttributeName, B : AttributeName>(
     protected open fun before(b: B) {}
     protected abstract fun check(b: B): Boolean
     public final override fun use(b: B) {
-        println("${a.name} used $name against ${b.name}")
+        println("${a.name.uppercase()} used $name against ${b.name.uppercase()}")
         before(b)
         if (check(b)) {
-            println("${a.name}'s $name worked against ${b.name}")
+            println("${a.name.uppercase()} $name worked against ${b.name.uppercase()}")
             apply(b)
         }
         after(b)

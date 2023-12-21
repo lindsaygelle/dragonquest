@@ -1,6 +1,10 @@
 public abstract class Combatant(
-    agility: Int, hitPoints: HitPoints, magicPoints: MagicPoints, name: String, strength: Strength,
-) : Actor(name = name), TraitCombatant, TraitSpellHurtReceiver, TraitSpellSleepReceiver, TraitSpellStopSpellReceiver {
+    agility: Int,
+    hitPoints: HitPoints,
+    magicPoints: MagicPoints,
+    public override var name: String,
+    strength: Strength,
+) : ActorCombatant {
 
     public final override var agility: Agility = agility
         set(value) {

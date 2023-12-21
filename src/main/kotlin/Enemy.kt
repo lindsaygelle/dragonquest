@@ -1,11 +1,3 @@
-public fun calculateSpellHurtEnemy(): Int {
-    return ((0..256).random() and 0x07) + 0x03
-}
-
-public fun calculateSpellStopSpellEnemy(): Int {
-    return (0..1).random()
-}
-
 public abstract class Enemy(
     agility: Int,
     damageResistance: Int,
@@ -14,22 +6,55 @@ public abstract class Enemy(
     hitPoints: HitPoints,
     magicPoints: MagicPoints,
     name: String,
+    pattern: Int,
     statusResistance: Int,
     strength: Strength
 ) : NPCEnemy(
     agility = agility,
     damageResistance = damageResistance,
     experiencePoints = experiencePoints,
-    goldPoints = (goldPoints * (((0..256).random() and 0x3F) + 0xC0)) shr 8,
-    hitPoints = hitPoints - (((0..256).random() * hitPoints) shr 10),
+    goldPoints = (goldPoints * (((0..255).random() and 0x3F) + 0xC0)) shr 8,
+    hitPoints = hitPoints - (((0..255).random() * hitPoints) shr 10),
     magicPoints = magicPoints,
     name = name,
+    pattern = pattern,
     statusResistance = statusResistance,
     strength = strength,
 ) {
-    protected abstract val combatSpells: Map<Spell.Name, Action<Combatant>>
+    protected open fun checkSpecialAttackPrimaryCondition(combatant: Combatant): Boolean {
+        return true
+    }
 
-    public abstract fun attack(combatant: Combatant)
+    protected open fun checkSpecialAttackSecondaryCondition(combatant: Combatant): Boolean {
+        return true
+    }
+
+    protected open val specialAttackPrimary: Action<Combatant>? = null
+    private final val specialAttackPrimaryChance: Int
+        get() = (((0..255).random() and 0x30) shr 4)
+
+    private final val specialAttackPrimaryThreshold: Int = ((pattern and 0x30) shr 4)
+
+    protected open val specialAttackSecondary: Action<Combatant>? = null
+
+    private final val specialAttackSecondaryChance: Int
+        get() = ((0..255).random() and 0x03)
+
+    private final val specialAttackSecondaryThreshold: Int = (pattern and 0x03)
+
+    public final fun attack(combatant: Combatant) {
+        if ((specialAttackPrimary != null) && (specialAttackPrimaryChance < specialAttackPrimaryThreshold)) {
+            if (checkSpecialAttackPrimaryCondition(combatant)) {
+                specialAttackPrimary!!.use(combatant)
+            }
+        } else if ((specialAttackSecondary != null) && (specialAttackSecondaryChance < specialAttackSecondaryThreshold)) {
+            if (checkSpecialAttackSecondaryCondition(combatant)) {
+                specialAttackSecondary!!.use((combatant))
+            }
+        } else {
+            Attack<Enemy, Combatant>(this).use(combatant)
+        }
+    }
 }
 
 public final class EnemyMagician : Enemy(
@@ -40,20 +65,15 @@ public final class EnemyMagician : Enemy(
     hitPoints = 13,
     magicPoints = 2,
     name = "Magician",
+    pattern = 2,
     statusResistance = 0,
     strength = 11
-), TraitSpellHurtInvoker {
-
-    override val combatSpells: Map<Spell.Name, Action<Combatant>> = mapOf(Spell.Name.HURT to SpellHurt(this))
-
-    override val hurtRequirement: Int = 1
-
-    override val hurtValue: Int
-        get() = calculateSpellHurtEnemy()
-
-    public override fun attack(combatant: Combatant) {
-        combatSpells[Spell.Name.HURT]?.use(combatant) // TODO implement check
+), InvokerSpellHurt {
+    override fun checkSpecialAttackPrimaryCondition(combatant: Combatant): Boolean {
+        return (0..1).random() == 1
     }
+
+    override val specialAttackPrimary: Action<Combatant> = SpellHurt(this)
 }
 
 public final class EnemyWarlock : Enemy(
@@ -64,22 +84,12 @@ public final class EnemyWarlock : Enemy(
     hitPoints = 30,
     magicPoints = 18,
     name = "Warlock",
+    pattern = 18,
     statusResistance = 4,
     strength = 28
-), TraitSpellHurtInvoker, TraitSpellSleepInvoker {
-
-    override val combatSpells: Map<Spell.Name, Action<Combatant>> =
-        mapOf(Spell.Name.HURT to SpellHurt(this), Spell.Name.SLEEP to SpellSleep(this))
-
-    override val hurtRequirement: Int = 1
-    override val hurtValue: Int
-        get() = calculateSpellHurtEnemy()
-
-    override val sleepRequirement: Int = 1
-
-    public override fun attack(combatant: Combatant) {
-        combatSpells[Spell.Name.SLEEP]?.use(combatant)
-    }
+), InvokerSpellHurt, InvokerSpellSleep {
+    override val specialAttackPrimary: Action<Combatant> = SpellSleep(this)
+    override val specialAttackSecondary: Action<Combatant> = SpellHurt(this)
 }
 
 public final class EnemyWolfLord : Enemy(
@@ -90,15 +100,13 @@ public final class EnemyWolfLord : Enemy(
     hitPoints = 38,
     magicPoints = 96,
     name = "Wolflord",
+    pattern = 96,
     statusResistance = 7,
     strength = 50
-), TraitSpellStopSpellInvoker {
-
-    override val combatSpells: Map<Spell.Name, Action<Combatant>> = mapOf(Spell.Name.STOPSPELL to SpellStopSpell(this))
-    final override val stopSpellRequirement: Int
-        get() = calculateSpellStopSpellEnemy()
-
-    override fun attack(combatant: Combatant) {
-        combatSpells[Spell.Name.STOPSPELL]?.use(combatant)
+), InvokerSpellStopSpell {
+    override fun checkSpecialAttackPrimaryCondition(combatant: Combatant): Boolean {
+        return !combatant.statusStopSpell && ((0..1).random() == 1)
     }
+
+    override val specialAttackPrimary: Action<Combatant> = SpellStopSpell(this)
 }

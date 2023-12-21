@@ -12,7 +12,7 @@ public abstract class Spell<A, B : AttributeName>(
     }
 }
 
-public final class SpellHurt<A : TraitSpellHurtInvoker, B : TraitSpellHurtReceiver>(a: A) :
+public final class SpellHurt<A : InvokerSpellHurt, B : ReceiverSpellHurt>(a: A) :
     Spell<A, B>(a = a, name = Name.HURT) {
     public override var magicPoints: MagicPoints = 2
 
@@ -25,7 +25,7 @@ public final class SpellHurt<A : TraitSpellHurtInvoker, B : TraitSpellHurtReceiv
     }
 }
 
-public final class SpellSleep<A : TraitSpellSleepInvoker, B : TraitSpellSleepReceiver>(a: A) :
+public final class SpellSleep<A : InvokerSpellSleep, B : ReceiverSpellSleep>(a: A) :
     Spell<A, B>(a = a, name = Name.SLEEP) {
     public override var magicPoints: MagicPoints = 2
 
@@ -38,7 +38,7 @@ public final class SpellSleep<A : TraitSpellSleepInvoker, B : TraitSpellSleepRec
     }
 }
 
-public final class SpellStopSpell<A : TraitSpellStopSpellInvoker, B : TraitSpellStopSpellReceiver>(a: A) :
+public final class SpellStopSpell<A : InvokerSpellStopSpell, B : ReceiverSpellStopSpell>(a: A) :
     Spell<A, B>(a = a, name = Name.STOPSPELL) {
     public final override var magicPoints: MagicPoints = 2
 
